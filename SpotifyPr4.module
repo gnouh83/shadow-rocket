@@ -1,0 +1,21 @@
+# =========================================
+# 应用名称：Spotify Premium Unlock
+# 脚本作者：app2smile
+# 更新时间：2025-08-31
+# 特别说明：解锁部分 Premium 功能，音质不支持超高
+# Released by: Nightmarket Server
+# Discord: https://discord.gg/juY9tw5AJY
+# =========================================
+
+[MITM]
+hostname = spclient.wg.spotify.com, *spclient.spotify.com
+
+[Script]
+# Header 修改
+spotify-header = type=http-request,pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize$,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/spotify-qx-header.js,requires-body=0,timeout=10
+
+# Response 解锁
+spotify-proto = type=http-response,pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)$,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/spotify-proto.js,requires-body=1,binary-body-mode=1,timeout=10
+
+# JSON 修正
+spotify-json = type=http-request,pattern=^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(artistview\/v1\/artist|album-entity-view\/v2\/album)\/,script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/spotify-json.js,requires-body=0,timeout=10
